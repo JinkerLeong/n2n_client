@@ -1,0 +1,54 @@
+﻿<Window x:Class="n2n_client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:n2n_client"
+        mc:Ignorable="d"
+        Title="n2n client" Icon="resources/n2n_client_icon.ico" Height="500" Width="400" Loaded="Window_Loaded" ResizeMode="CanMinimize" WindowStyle="SingleBorderWindow">
+    <Grid>
+        <StackPanel>
+            <GroupBox Header="Server information">
+                <StackPanel>
+                    <Label Content="Saved infos (Select will override info below):" />
+                    <ComboBox Name="savedInfos_ComboBox" Height="25" VerticalContentAlignment="Center" SelectionChanged="savedInfos_ComboBox_SelectionChanged" />
+                    
+                    <Label Content="Server ip with port (e.g. 112.224.339.440:6666" />
+                    <TextBox Name="serverIp_TextBox" Height="25" VerticalContentAlignment="Center" AcceptsReturn="False"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Name="saveCustomIpBtn" Content="Save custom info" ToolTip="Only select Custom information to use" Margin="5,5,5,0" Width="140" Height="25" Click="saveCustomIpBtn_Click" />
+                        <Button Name="removeCustomIpBtn" Content="Remove selected info" ToolTip="Only select saved information to use" Margin="5,5,5,0" Width="140" Height="25" Click="removeCustomIpBtn_Click" />
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+            
+            <GroupBox Header="Virtual local information">
+                <StackPanel>
+                    <Label Content="Local ip (Cant same with your friends):" />
+                    <TextBox Name="virtualIp_TextBox" Height="25" VerticalContentAlignment="Center" AcceptsReturn="False" />
+
+                    <Label Content="Community name (Only one community can be matched):" />
+                    <TextBox Name="communityName_TextBox" Height="25" VerticalContentAlignment="Center" AcceptsReturn="False"/>
+
+                    <Label Content="Community password (Can empty):" />
+                    <TextBox Name="communityPassword_TextBox" Height="25" VerticalContentAlignment="Center" AcceptsReturn="False"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Controls">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Name="startN2nBtn" Content="Start" ToolTip="Click to connect or stop" Margin="0,0,0,0" HorizontalAlignment="Center"  Height="25" Width="100" Click="startN2nBtn_Click"/>
+                        <CheckBox Name="showConsole_CheckBox" Content="Show console" VerticalAlignment="Center" Margin="10,0,0,0" IsChecked="False" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Name="reinstallTapBtn" Content="Reinstall tap driver" ToolTip="Reinstall tap driver, to use the app need this driver" Width="150" Height="25" Margin="5,5,5,0" Click="reinstallTapBtn_Click" />
+                        <Button Name="uninstallTapBtn" Content="Uninstall tap driver" ToolTip="Uninstall tap driver, no this driver app cant start normal" Width="150" Margin="5,5,5,0" Height="25" Click="uninstallTapBtn_Click" />
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+            <Button Name="aboutBtn" Content="About app" Margin="5,10,5,10" Height="25" Click="aboutBtn_Click" />
+        </StackPanel>
+    </Grid>
+</Window>
