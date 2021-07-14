@@ -1,6 +1,8 @@
 # n2n_client
 Simple and eazy n2n gui.
 
+Require .Net 5, latest windows version default installed.
+
 *Eazy to use.*
 
 **First run will auto setup tap driver.**
