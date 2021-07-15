@@ -14,4 +14,44 @@
     </Resource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="n2n\x32_files\" />
+    <Folder Include="n2n\x64_files\" />
+    <Folder Include="tap-window\x32_files\" />
+    <Folder Include="tap-window\x64_files\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="n2n\x32_files\edge.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="n2n\x64_files\edge.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="tap-window\x32_files\OemVista.inf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="tap-window\x32_files\tap0901.cat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="tap-window\x32_files\tap0901.sys">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="tap-window\x32_files\tapinstall.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="tap-window\x64_files\OemVista.inf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="tap-window\x64_files\tap0901.cat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="tap-window\x64_files\tap0901.sys">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="tap-window\x64_files\tapinstall.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

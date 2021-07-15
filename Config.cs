@@ -24,7 +24,7 @@ namespace n2n_client
             {
                 File.Create(configPath).Close();
                 writeConfig();
-                PublicHelper.reinstallTap();
+                PublicHelper.TapWindow.reinstallTap();
             }
             using (StreamReader sr = new StreamReader(configPath))
             {

@@ -39,8 +39,8 @@
             <GroupBox Header="Controls">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Name="startN2nBtn" Content="Start" ToolTip="Click to connect or stop" Margin="0,0,0,0" HorizontalAlignment="Center"  Height="25" Width="100" Click="startN2nBtn_Click"/>
-                        <CheckBox Name="showConsole_CheckBox" Content="Show console" VerticalAlignment="Center" Margin="10,0,0,0" IsChecked="False" />
+                        <Button Name="startN2nBtn" Content="Start" ToolTip="Click to connect or stop. If start will auto save virtual local information. Cant start may be no install tap driver, please click reinstall tap driver button." Margin="0,0,0,0" HorizontalAlignment="Center"  Height="25" Width="100" Click="startN2nBtn_Click"/>
+                        <CheckBox Name="showConsole_CheckBox" Content="Show console" ToolTip="Show the console about n2n edge" VerticalAlignment="Center" Margin="10,0,0,0" IsChecked="False" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button Name="reinstallTapBtn" Content="Reinstall tap driver" ToolTip="Reinstall tap driver, to use the app need this driver" Width="150" Height="25" Margin="5,5,5,0" Click="reinstallTapBtn_Click" />

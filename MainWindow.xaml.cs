@@ -28,6 +28,27 @@ namespace n2n_client
         public MainWindow()
         {
             InitializeComponent();
+
+            if (!CheckAll())
+            {
+                Environment.Exit(Environment.ExitCode);     
+            }
+        }
+
+        private bool CheckAll()
+        {
+            if (!PublicHelper.N2nFile.Check())
+            {
+                MessageBox.Show("n2n files is missing", "Cant continue run");
+                return false;
+            }
+            if (!PublicHelper.TapWindow.Check())
+            {
+                MessageBox.Show("tap-window files is missing!", "Cant continue run");
+                return false;
+            }
+
+            return true;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -103,50 +124,62 @@ namespace n2n_client
             return true;
         }
 
-        private void startN2nBtn_Click(object sender, RoutedEventArgs e)
+        private void getedge()
         {
-            if (!MatchAll()) return;
-
             if (defaultN2n == null)
             {
                 defaultN2n = N2nEdge.getInstance(
-                    virtualIp_TextBox.Text, 
-                    serverIp_TextBox.Text, 
-                    communityName_TextBox.Text, 
-                    communityPassword_TextBox.Text == "" ? "defaultpassword" : communityPassword_TextBox.Text);
+                    virtualIp_TextBox.Text,
+                    serverIp_TextBox.Text,
+                    communityName_TextBox.Text,
+                    communityPassword_TextBox.Text == "" ? "defaultpassword" : communityPassword_TextBox.Text,
+                    PublicHelper.N2nFile.edgeFilePath);
                 defaultN2n.showConsole = showConsole_CheckBox.IsChecked.Value;
-                defaultN2n.start();
+            }
+        }
+
+        private async void startN2nBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (!MatchAll()) return;
+
+            getedge();
+
+            if (startN2nBtn.Content.ToString() == "Start")
+            {
+                defaultN2n.virtualIp = virtualIp_TextBox.Text;
+                defaultN2n.serverIp = serverIp_TextBox.Text;
+                defaultN2n.communityName = communityName_TextBox.Text;
+                defaultN2n.communityPassword = communityPassword_TextBox.Text == "" ? "defaultpassword" : communityPassword_TextBox.Text;
+                defaultN2n.showConsole = showConsole_CheckBox.IsChecked.Value;
 
                 config.save(virtualIp_TextBox.Text, communityName_TextBox.Text, communityPassword_TextBox.Text);
                 startN2nBtn.Content = "Stop";
+
+                bool end = await defaultN2n.start();
+                if (end)
+                    startN2nBtn.Content = "Start";
             }
             else
             {
-                if (startN2nBtn.Content.ToString() == "Start")
-                {
-                    defaultN2n.virtualIp = virtualIp_TextBox.Text;
-                    defaultN2n.serverIp = serverIp_TextBox.Text;
-                    defaultN2n.communityName = communityName_TextBox.Text;
-                    defaultN2n.communityPassword = communityPassword_TextBox.Text == "" ? "defaultpassword" : communityPassword_TextBox.Text;
-                    defaultN2n.showConsole = showConsole_CheckBox.IsChecked.Value;
-                    defaultN2n.start();
-
-                    config.save(virtualIp_TextBox.Text, communityName_TextBox.Text, communityPassword_TextBox.Text);
-                    startN2nBtn.Content = "Stop";
-                }
-                else
-                {
-                    defaultN2n.stop();
-                    startN2nBtn.Content = "Start";
-                }
+                defaultN2n.stop();
+                startN2nBtn.Content = "Start";
             }
         }
 
         private void aboutBtn_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(
-                "Author: Jinker\n" +
-                "Simple gui for n2n.", "n2n client v1.0");
+            KeyValuePair<string, string> info = PublicHelper.Default.GetAppInfo();
+            if (MessageBox.Show(info.Key, "n2n client v1.1", MessageBoxButton.OKCancel, MessageBoxImage.Information, MessageBoxResult.Cancel) == MessageBoxResult.OK)
+            {
+                var psi = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "cmd.exe",
+                    Arguments = $"/C start {info.Value}",
+                    WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
+                    CreateNoWindow = true
+                };
+                System.Diagnostics.Process.Start(psi);
+            }
         }
 
         private void savedInfos_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -155,12 +188,14 @@ namespace n2n_client
             {
                 serverIp_TextBox.Text = "";
                 saveCustomIpBtn.IsEnabled = true;
+                serverIp_TextBox.IsEnabled = true;
                 removeCustomIpBtn.IsEnabled = false;
             }
             else
             {
                 serverIp_TextBox.Text = savedInfos_ComboBox.Items[savedInfos_ComboBox.SelectedIndex].ToString();
                 saveCustomIpBtn.IsEnabled = false;
+                serverIp_TextBox.IsEnabled = false;
                 removeCustomIpBtn.IsEnabled = true;
             }
         }
@@ -170,7 +205,7 @@ namespace n2n_client
             reinstallTapBtn.Content = "Reinstalling......";
             reinstallTapBtn.IsEnabled = uninstallTapBtn.IsEnabled = false;
 
-            bool result = await PublicHelper.reinstallTap();
+            bool result = await PublicHelper.TapWindow.reinstallTap();
 
             reinstallTapBtn.Content = "Reinstall tap driver";
             reinstallTapBtn.IsEnabled = uninstallTapBtn.IsEnabled = true;
@@ -181,7 +216,7 @@ namespace n2n_client
             uninstallTapBtn.Content = "Uninstalling......";
             reinstallTapBtn.IsEnabled = uninstallTapBtn.IsEnabled = false;
 
-            bool result = await PublicHelper.uninstallTap();
+            bool result = await PublicHelper.TapWindow.uninstallTap();
 
             uninstallTapBtn.Content = "Uninstall tap driver";
             reinstallTapBtn.IsEnabled = uninstallTapBtn.IsEnabled = true;
