@@ -124,32 +124,24 @@ namespace n2n_client
             return true;
         }
 
-        private void getedge()
-        {
-            if (defaultN2n == null)
-            {
-                defaultN2n = N2nEdge.getInstance(
-                    virtualIp_TextBox.Text,
-                    serverIp_TextBox.Text,
-                    communityName_TextBox.Text,
-                    communityPassword_TextBox.Text == "" ? "defaultpassword" : communityPassword_TextBox.Text,
-                    PublicHelper.N2nFile.edgeFilePath);
-                defaultN2n.showConsole = showConsole_CheckBox.IsChecked.Value;
-            }
-        }
-
         private async void startN2nBtn_Click(object sender, RoutedEventArgs e)
         {
             if (!MatchAll()) return;
 
-            getedge();
+            if (defaultN2n == null)
+            {
+                defaultN2n = N2nEdge.getInstance(PublicHelper.N2nFile.edgeFilePath);
+            }
 
             if (startN2nBtn.Content.ToString() == "Start")
             {
                 defaultN2n.virtualIp = virtualIp_TextBox.Text;
                 defaultN2n.serverIp = serverIp_TextBox.Text;
                 defaultN2n.communityName = communityName_TextBox.Text;
-                defaultN2n.communityPassword = communityPassword_TextBox.Text == "" ? "defaultpassword" : communityPassword_TextBox.Text;
+                defaultN2n.havePassword = !string.IsNullOrEmpty(communityPassword_TextBox.Text);
+                if (defaultN2n.havePassword)
+                    defaultN2n.communityPassword = communityPassword_TextBox.Text;
+                    
                 defaultN2n.showConsole = showConsole_CheckBox.IsChecked.Value;
 
                 config.save(virtualIp_TextBox.Text, communityName_TextBox.Text, communityPassword_TextBox.Text);

@@ -20,26 +20,33 @@ namespace n2n_client
         public string n2nEdgePath { get; private set; }
 
         private bool Running { get; set; }
+        public bool havePassword { get; internal set; }
 
-        public static N2nEdge getInstance(string _virtualIp, string _serverIp, string _communityName, string _password, string _n2nEdgePath)
+        /// <summary>
+        /// get empty N2nEdge
+        /// </summary>
+        /// <returns></returns>
+        public static N2nEdge getInstance(string edgeFilePath)
         {
-            return new N2nEdge(_virtualIp, _serverIp, _communityName, _password, _n2nEdgePath);
+            var edge = new N2nEdge();
+            edge.n2nEdgePath = edgeFilePath;
+            return edge;
         }
 
-        public N2nEdge(string _virtualIp, string _serverIp, string _communityName, string _password, string _n2nEdgePath)
+        private N2nEdge()
         {
-            this.showConsole = false;
-            this.virtualIp = _virtualIp;
-            this.serverIp = _serverIp;
-            this.communityName = _communityName;
-            this.communityPassword = _password;
-            this.n2nEdgePath = _n2nEdgePath;
+            this.showConsole = this.havePassword = this.Running = false;
+            this.virtualIp = this.serverIp = this.communityName = this.communityPassword = this.n2nEdgePath = "";
         }
+
         public async Task<bool> start()
         {
             return await Task.Run(() =>
             {
-                string args = string.Format("-c {0} -k {1} -a {2} -l {3}", this.communityName, this.communityPassword, this.virtualIp, this.serverIp);
+                string args = havePassword? 
+                string.Format("-c {0} -k {1} -a {2} -l {3}", this.communityName, this.communityPassword, this.virtualIp, this.serverIp) :
+                string.Format("-c {0} -a {1} -l {2}", this.communityName, this.virtualIp, this.serverIp);
+
                 ProcessStartInfo processStartInfo = new ProcessStartInfo();
                 processStartInfo.FileName = n2nEdgePath;
                 processStartInfo.Arguments = args;
