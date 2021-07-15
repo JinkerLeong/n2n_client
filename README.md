@@ -10,7 +10,7 @@ Require .Net 5.
 1. Enter **server ip**
 2. Enter **local ip**
 3. Enter **community name**
-4. Click start button to use. Password can empty (will set **defaultpassword**)
+4. Click start button to use. If you want encrypt can enter **community password**.
 
 - Checked Show console can show information for n2n edge
 - Can reinstall or uninstall tap driver by yourself
