@@ -1,7 +1,7 @@
 # n2n_client
 Simple and eazy gui for n2n v2.8
 
-Require .Net 5, latest windows version default installed.
+Require .Net 5.
 
 *Eazy to use.*
 
